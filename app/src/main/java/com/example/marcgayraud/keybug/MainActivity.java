@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     //Permet d afficher tous les decks en colonne sur l ecran principal via le listView
     public void displayDecks()
     {
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 
                 Object o = mListView.getItemAtPosition(position);
-                if(position == 1)
+                //if(position == 1)
                 {
                     Intent intent = new Intent(getApplicationContext(), DeckMenu.class);
                     intent.putExtra("deckPosition", position);

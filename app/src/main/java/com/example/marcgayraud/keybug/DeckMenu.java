@@ -11,18 +11,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import static android.R.attr.data;
+
 /**
  * Created by MarcGAYRAUD on 05/05/2017.
  */
 
 public class DeckMenu extends AppCompatActivity {
     ListView mListView;
-    //TODO : get the position from intent
-    //int deckPosition = getIntent.getExtras().getInt("deckPosition");
-    int position = 1;
 
     //Permet d afficher tous les decks en colonne sur l ecran principal via le listView
-    public void displayFiches()
+    public void displayFiches(int deckPosition)
     {
         mListView = (ListView) findViewById(R.id.listView);
 
@@ -48,8 +47,8 @@ public class DeckMenu extends AppCompatActivity {
             }
         });
         */
-
-        String[] fiches = Singleton.getInstance().getBDD().mesDecks.get(position).getListFiche();
+        System.out.println("Trace NombreFiches : " + Singleton.getInstance().getBDD().mesDecks.get(deckPosition).mesFiches.size());
+        String[] fiches = Singleton.getInstance().getBDD().mesDecks.get(deckPosition).getListFiche();
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(DeckMenu.this,
                 android.R.layout.simple_list_item_1, fiches);
         mListView.setAdapter(adapter);
@@ -62,21 +61,56 @@ public class DeckMenu extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.deck_menu);
 
+        final int deckPosition = getIntent().getExtras().getInt("deckPosition");
+        System.out.println("Trace PositionDeck : " + deckPosition);
         //Initialisation de la Base de donnes si jamais initialisee
         //Affichage des decks
-        displayFiches();
+        displayFiches(deckPosition);
 
-        /*
-        //Button lancant l activity AddDeck
-        Button addingDeck = (Button) findViewById(R.id.addDeck);
+
+        //Button pour ajouter une fiche le Deck
+        Button addFiche = (Button) findViewById(R.id.addFiche);
 
         //Lors du clic de ce bouton
-        addingDeck.setOnClickListener(new View.OnClickListener() {
+        addFiche.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AddDeck.class);
-                startActivityForResult(intent, 1);
+
+                Intent intent = new Intent(getApplicationContext(), AddFiche.class);
+                intent.putExtra("deckPosition", deckPosition);
+                startActivityForResult(intent, 2);
+
             }
         });
-        */
+
+        //Button pour supprimer le Deck
+        Button supprDeck = (Button) findViewById(R.id.supprDeck);
+
+        //Lors du clic de ce bouton
+        supprDeck.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                //TODO : Suppresion of Decks
+                /*
+                Intent intent = new Intent(getApplicationContext(), AddDeck.class);
+                startActivityForResult(intent, 1);
+                */
+            }
+        });
+
+        //Au retour de AddFiche on refresh cette activity
+
+
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            Intent refresh = new Intent(this, DeckMenu.class);
+            //int deckPosition = data.getData();
+            startActivity(refresh);
+            this.finish();
+        }
+    }
+
 }

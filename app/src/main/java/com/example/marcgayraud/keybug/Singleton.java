@@ -15,6 +15,8 @@ public class Singleton {
         m_BDD = new BDD();
         m_BDD.addDeck("DECK1");
         m_BDD.addDeck("DECK2");
+        m_BDD.mesDecks.get(1).addFiche(new Fiche("Question 1", "1 + 1 = ?", "2"));
+        m_BDD.mesDecks.get(1).addFiche(new Fiche("Question 2", "2 x 3 = ?", "6"));
         m_BDD.addDeck("DECK3");
         m_BDD.addDeck("DECK4");
     }

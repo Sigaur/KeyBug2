@@ -8,6 +8,7 @@ import java.util.Vector;
 public class Deck {
 
     public List<Fiche> mesFiches = new Vector<Fiche>();
+
     private String m_name;
 
     public Deck(String name)
@@ -17,6 +18,12 @@ public class Deck {
     public int getNumberFiches()
     {
         return mesFiches.size();
+    }
+
+    public void addFiche(String nameFiche, String question, String reponse)
+    {
+        Fiche tempFiche = new Fiche(nameFiche, question, reponse);
+        mesFiches.add(tempFiche);
     }
 
     public void addFiche(Fiche newFiche)
